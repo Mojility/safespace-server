@@ -1,0 +1,3 @@
+class Invitation < ApplicationRecord
+  belongs_to :room
+end
