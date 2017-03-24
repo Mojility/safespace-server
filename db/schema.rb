@@ -47,12 +47,12 @@ ActiveRecord::Schema.define(version: 20170324182412) do
   end
 
   create_table "memberships", force: :cascade do |t|
-    t.integer  "person_id_id"
-    t.integer  "room_id_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-    t.index ["person_id_id"], name: "index_memberships_on_person_id_id", using: :btree
-    t.index ["room_id_id"], name: "index_memberships_on_room_id_id", using: :btree
+    t.integer  "person_id"
+    t.integer  "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_memberships_on_person_id", using: :btree
+    t.index ["room_id"], name: "index_memberships_on_room_id", using: :btree
   end
 
   create_table "people", force: :cascade do |t|

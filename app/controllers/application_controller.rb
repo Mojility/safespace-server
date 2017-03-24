@@ -4,4 +4,5 @@ class ApplicationController < ActionController::Base
   def rooms_for_user
     render json: Room.all
   end
+
 end
