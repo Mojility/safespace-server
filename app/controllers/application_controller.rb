@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
 
   def register_user
     Person.create! email: params[:email], handle: params[:handle]
@@ -7,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   def rooms_for_user
     person = Person.find(params[:id])
-    render json: Room.where(person: person)
+    render json: person.rooms
   end
 
   def rooms
