@@ -73,7 +73,7 @@ ActiveRecord::Schema.define(version: 20170324182412) do
   end
 
   create_table "rooms", force: :cascade do |t|
-    t.string   "room"
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
