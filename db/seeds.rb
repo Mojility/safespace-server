@@ -32,6 +32,7 @@ Emote.create!(label: 'emote2', code: 'Q')
 Emote.create!(label: 'emote3', code: 'W')
 e = Emote.create!(label: 'emote4', code: 'E')
 
+Infraction.create!(label: 'test infraction 2')
 i = Infraction.create!(label: 'test infraction label')
 
 post = Post.create!(person: p, room: r, body: ' body stuff 1')

@@ -116,4 +116,27 @@ class ApiController < ApplicationController
     event = EmoteEvent.find_by(person: person, post: post, emote: emote)
     event.destroy
   end
+
+  def callout
+    person = Person.find_by(auth: [params[:auth]])
+    room = Room.find(params[:room_id])
+    post = Post.find(params[:post_id])
+    infraction = Infraction.find(params[:infraction_id])
+
+    if Membership.exists?(person: person, room: room) && !InfractionEvent.exists?(person: person, post: post, infraction: infraction)
+      InfractionEvent.create!(person: person, post: post, infraction: infraction)
+    else
+      response.status = 400
+      render json: {}
+    end
+  end
+
+  def remove_callout
+    person = Person.find_by(auth: [params[:auth]])
+    post = Post.find(params[:post_id])
+    infraction = Infraction.find(params[:infraction_id])
+
+    event = InfractionEvent.find_by(person: person, post: post, infraction: infraction)
+    event.destroy
+  end
 end

@@ -19,4 +19,7 @@ Rails.application.routes.draw do
   match 'room/:room_id/post' => 'api#post_post', via: [:post]
   match 'room/:room_id/post/:post_id/emote' => 'api#emote_on_post', via: [:post]
   match 'room/:room_id/post/:post_id/emote/:emote_id/:auth' => 'api#remove_emote_from_post', via: [:delete]
+  match 'room/:room_id/post/:post_id/infraction' => 'api#callout', via: [:post]
+  match 'room/:room_id/post/:post_id/infraction/:infraction_id/:auth' => 'api#remove_callout', via: [:delete]
+
 end
