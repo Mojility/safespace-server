@@ -18,10 +18,15 @@ AdminUser.create!(email: 'admin@example.com', password: 'password', password_con
 Room.create!(name: 'Beauty from Ashes It\'s All About Us')
 Room.create!(name: 'Gay Poz Guys')
 Room.create!(name: 'Well Ahead')
-Room.create!(name: 'The Pozzy')
-
+r = Room.create!(name: 'The Pozzy')
 p = Person.create!(email: 'coolio@gmail.io', handle: 'Coolio')
 Membership.create!(person: p, room: Room.all.first)
+
+Post.create!(person: p, room: r, body: ' body stuff 1')
+Post.create!(person: p, room: r, body: ' body stuff 2')
+Post.create!(person: p, room: r, body: ' body stuff 3')
+Post.create!(person: p, room: r, body: ' body stuff 4')
+Post.create!(person: p, room: r, body: ' body stuff 5')
 
 Emote.create!(label: 'emote1', code: 'R')
 Emote.create!(label: 'emote2', code: 'Q')

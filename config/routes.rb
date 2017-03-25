@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   match 'auth/setup' => 'api#setup_person', via: [:post]
   match 'auth/join' => 'api#join_room', via: [:post]
   match 'metadata' => 'api#metadata', via: [:post]
+
+  match 'room/:room_id/:auth' => 'api#get_posts', via: [:get]
 end
