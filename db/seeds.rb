@@ -10,6 +10,7 @@ Room.delete_all
 Membership.delete_all
 Person.delete_all
 Invitation.delete_all
+Emote.delete_all
 
 
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
@@ -21,3 +22,8 @@ Room.create!(name: 'The Pozzy')
 
 p = Person.create!(email: 'coolio@gmail.io', handle: 'Coolio')
 Membership.create!(person: p, room: Room.all.first)
+
+Emote.create!(label: 'emote1', code: 'R')
+Emote.create!(label: 'emote2', code: 'Q')
+Emote.create!(label: 'emote3', code: 'W')
+Emote.create!(label: 'emote4', code: 'E')

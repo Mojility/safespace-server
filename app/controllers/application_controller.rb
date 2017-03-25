@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  respond_to :json
 
   def register_user
     Person.create! email: params[:email], handle: params[:handle]
@@ -11,13 +12,6 @@ class ApplicationController < ActionController::Base
 
   def rooms
     render json: Room.all
-  end
-
-  def join_room
-    Membership.create!(
-        person: Person.find(params[:id]),
-        room: Room.find(params[:room_id])
-    )
   end
 
   def create_post
@@ -66,4 +60,13 @@ class ApplicationController < ActionController::Base
     invitation.destroy!
   end
 
+  def metadata
+    if Person.exists?(auth: params[:auth])
+      @rooms = Room.all
+      @emotes = Emote.all
+    else
+      response.status = 404
+      render json: {}
+    end
+  end
 end
