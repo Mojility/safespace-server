@@ -15,17 +15,38 @@ class ApplicationController < ActionController::Base
 
   def join_room
     Membership.create!(
-                  person: Person.find(params[:id]),
-                  room: Room.find(params[:room_id])
+        person: Person.find(params[:id]),
+        room: Room.find(params[:room_id])
     )
   end
 
   def create_post
     Post.create!(
-            person: Person.find(params[:id]),
-            room: Room.find(params[:room_id]),
-            body: params[:body]
+        person: Person.find(params[:id]),
+        room: Room.find(params[:room_id]),
+        body: params[:body]
     )
+  end
+
+  def validate_invitation
+    invitation = Invitation.find_by(token: params[:token])
+
+    if invitation.nil?
+      response.status = 404
+      render json: {}
+    else
+      person = Person.find_by(email: invitation.email)
+      if person.nil?
+        render json: {person_exists: false}
+      else
+        Membership.create!(
+            person: person,
+            room: invitation.room
+        )
+        render json: {person_exists: true}
+      end
+    end
+
   end
 
 end
