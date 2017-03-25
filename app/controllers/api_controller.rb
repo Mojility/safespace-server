@@ -61,7 +61,7 @@ class ApiController < ApplicationController
   end
 
   def metadata
-    if Person.exists?(auth: params[:auth])
+    if Person.exists?(auth: request.headers['auth'])
       @rooms = Room.all
       @emotes = Emote.all
     else
@@ -71,7 +71,7 @@ class ApiController < ApplicationController
   end
 
   def get_posts
-    person = Person.find_by(auth: URI.decode(params[:auth]))
+    person = Person.find_by(auth: request.headers['auth'])
     @room = Room.find(params[:room_id])
 
     if Membership.exists?(person: person, room: @room)
@@ -83,7 +83,7 @@ class ApiController < ApplicationController
   end
 
   def post_post
-    person = Person.find_by(auth: [params[:auth]])
+    person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
 
     if Membership.exists?(person: person, room: room)
@@ -95,7 +95,7 @@ class ApiController < ApplicationController
   end
 
   def emote_on_post
-    person = Person.find_by(auth: [params[:auth]])
+    person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
     post = Post.find(params[:post_id])
     emote = Emote.find(params[:emote_id])
@@ -109,7 +109,7 @@ class ApiController < ApplicationController
   end
 
   def remove_emote_from_post
-    person = Person.find_by(auth: [params[:auth]])
+    person = Person.find_by(auth: request.headers['auth'])
     post = Post.find(params[:post_id])
     emote = Emote.find(params[:emote_id])
 
@@ -118,7 +118,7 @@ class ApiController < ApplicationController
   end
 
   def callout
-    person = Person.find_by(auth: [params[:auth]])
+    person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
     post = Post.find(params[:post_id])
     infraction = Infraction.find(params[:infraction_id])
@@ -132,7 +132,7 @@ class ApiController < ApplicationController
   end
 
   def remove_callout
-    person = Person.find_by(auth: params[:auth])
+    person = Person.find_by(auth: request.headers['auth'])
     post = Post.find(params[:post_id])
     infraction = Infraction.find(params[:infraction_id])
 
@@ -141,7 +141,7 @@ class ApiController < ApplicationController
   end
 
   def create_infraction
-    person = Person.find_by(auth: params[:auth])
+    person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
 
     if Membership.exists?(person: person, room: room) && !Infraction.exists?(room: room, label: params[:label])
@@ -153,7 +153,7 @@ class ApiController < ApplicationController
   end
 
   def rate_infraction
-    person = Person.find_by(auth: params[:auth])
+    person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
     infraction = Infraction.find(params[:infraction_id])
 
