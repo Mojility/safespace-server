@@ -39,10 +39,6 @@ class ApplicationController < ActionController::Base
       if person.nil?
         render json: {person_exists: false}
       else
-        Membership.create!(
-            person: person,
-            room: invitation.room
-        )
         render json: {person_exists: true}
       end
     end
@@ -52,14 +48,22 @@ class ApplicationController < ActionController::Base
   def setup_person
     invitation = Invitation.find_by(token: params[:token])
     if !invitation.nil?
-      person = Person.create!(email: invitation.email, handle: params[:handle])
-      Membership.create!(person: person, room: invitation.room)
-      invitation.destroy!
+      Person.create!(email: invitation.email, handle: params[:handle])
       render json: {}
     else
       response.status = 404
       render json: {}
     end
+  end
+
+  def join_room
+    invitation = Invitation.find_by(token: params[:token])
+    person = Person.find_by(email: invitation.email)
+    Membership.create!(
+        person: person,
+        room: invitation.room
+    )
+    invitation.destroy!
   end
 
 end

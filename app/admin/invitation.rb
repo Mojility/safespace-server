@@ -1,5 +1,5 @@
 ActiveAdmin.register Invitation do
 
-  permit_params :room, :email
+  permit_params :room_id, :email
 
 end
