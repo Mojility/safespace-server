@@ -24,6 +24,10 @@ class ApiController < ApplicationController
     invitation = Invitation.find_by(token: params[:token])
     if !invitation.nil?
       person = Person.create!(email: invitation.email, handle: params[:handle])
+      invitation.destroy!
+      puts "####################################################"
+      puts "Auth Token: #{person.auth}"
+      puts "####################################################"
       render json: {token: person.auth} # Authorization
     else
       response.status = 404
