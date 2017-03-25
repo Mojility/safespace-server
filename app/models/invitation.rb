@@ -1,11 +1,11 @@
 class Invitation < ApplicationRecord
   belongs_to :room
 
-  before_create :set_token
+  before_create :make_invitation
 
   private
 
-  def set_token
+  def make_invitation
     self.token = SecureRandom.hex(3)
   end
 end

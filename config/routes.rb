@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   match 'registry/subscribe' => 'application#join_room', via: [:post]
 
   match 'posts/create' => 'application#create_post', via: [:post]
+
+  match 'auth/validate' => 'application#validate_invitation', via: [:post]
 end
