@@ -11,20 +11,20 @@ class ApiController < ApplicationController
     else
       person = Person.find_by(email: invitation.email)
       if person.nil?
-        render json: {person_exists: false}
+        render json: {person_exists: false} # ValidateResponse
       else
-        render json: {person_exists: true, auth_token: person.auth}
+        render json: {person_exists: true, auth_token: person.auth} # ValidateResponse
       end
     end
 
   end
 
-  # person_exists, auth_token
+  # auth_token
   def setup_person
     invitation = Invitation.find_by(token: params[:token])
     if !invitation.nil?
       person = Person.create!(email: invitation.email, handle: params[:handle])
-      render json: {auth_token: person.auth}
+      render json: {token: person.auth} # Authorization
     else
       response.status = 404
       render json: {}
@@ -34,6 +34,7 @@ class ApiController < ApplicationController
   # emotes, rooms
   def metadata
     if Person.exists?(auth: request.headers['auth'])
+      # RoomsAndEmotes
       @rooms = Room.all
       @emotes = Emote.all
     else
@@ -42,20 +43,7 @@ class ApiController < ApplicationController
     end
   end
 
-  # infractions, posts
-  def get_posts
-    person = Person.find_by(auth: request.headers['auth'])
-    @room = Room.find(params[:room_id])
-
-    if Membership.exists?(person: person, room: @room)
-      @posts = @room.posts
-    else
-      response.status = 401
-      render json: {}
-    end
-  end
-
-  # status only
+  # auth_token
   def join_room
     invitation = Invitation.find_by(token: params[:token])
     person = Person.find_by(email: invitation.email)
@@ -64,6 +52,21 @@ class ApiController < ApplicationController
         room: invitation.room
     )
     invitation.destroy!
+    render json: {token: person.auth} # Authorization
+  end
+
+  # infractions, posts
+  def get_posts
+    person = Person.find_by(auth: request.headers['auth'])
+    @room = Room.find(params[:room_id])
+
+    if Membership.exists?(person: person, room: @room)
+      # PostsAndInfractions
+      @posts = @room.posts
+    else
+      response.status = 401
+      render json: {}
+    end
   end
 
   # status only
@@ -120,7 +123,7 @@ class ApiController < ApplicationController
   end
 
   # status only
-  def remove_callout
+  def remove_infraction
     person = Person.find_by(auth: request.headers['auth'])
     post = Post.find(params[:post_id])
     infraction = Infraction.find(params[:infraction_id])

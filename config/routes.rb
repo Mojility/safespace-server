@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   match 'room/:room_id/post/:post_id/emote' => 'api#emote_on_post', via: [:post]
   match 'room/:room_id/post/:post_id/emote/:emote_id' => 'api#remove_emote_from_post', via: [:delete]
   match 'room/:room_id/post/:post_id/infraction' => 'api#callout', via: [:post]
-  match 'room/:room_id/post/:post_id/infraction/:infraction_id' => 'api#remove_callout', via: [:delete]
+  match 'room/:room_id/post/:post_id/infraction/:infraction_id' => 'api#remove_infraction', via: [:delete]
 
   match 'room/:room_id/infraction' => 'api#create_infraction', via: [:post]
-  match 'room/:room_id/infraction/rate' => 'api#rate_infraction', via: [:post]
+  match 'room/:room_id/infraction/:infraction_id/rate' => 'api#rate_infraction', via: [:post]
 end
