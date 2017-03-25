@@ -1,12 +1,12 @@
 json.posts @posts do |post|
   json.(post, :id, :body)
   json.handle post.person.handle
-  json.emotes post.emote_events do |emote|
-    json.id emote.emote.id
-    json.quantity 5
+  json.emotes post.emotes do |emote|
+    json.id emote[:id]
+    json.quantity emote[:quantity]
   end
-  json.infractions post.infraction_events do |infraction|
-    json.id infraction.infraction.id
-    json.quantity 5
+  json.infractions post.infractions do |infraction|
+    json.id infraction[:id]
+    json.quantity infraction[:quantity]
   end
 end
