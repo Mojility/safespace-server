@@ -33,9 +33,11 @@ class ApiController < ApplicationController
 
   # emotes, rooms
   def metadata
-    if Person.exists?(auth: request.headers['auth'])
+    auth = request.headers['auth']
+    if Person.exists?(auth: auth)
+      person = Person.find_by(auth: auth)
       # RoomsAndEmotes
-      @rooms = Room.all
+      @rooms = person.rooms
       @emotes = Emote.all
     else
       response.status = 404
