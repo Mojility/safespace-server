@@ -1,27 +1,7 @@
 class ApiController < ApplicationController
   respond_to :json
 
-  def register_user
-    Person.create! email: params[:email], handle: params[:handle]
-  end
-
-  def rooms_for_user
-    person = Person.find(params[:id])
-    render json: person.rooms
-  end
-
-  def rooms
-    render json: Room.all
-  end
-
-  def create_post
-    Post.create!(
-        person: Person.find(params[:id]),
-        room: Room.find(params[:room_id]),
-        body: params[:body]
-    )
-  end
-
+  # person_exists, auth_token
   def validate_invitation
     invitation = Invitation.find_by(token: params[:token])
 
@@ -39,6 +19,7 @@ class ApiController < ApplicationController
 
   end
 
+  # person_exists, auth_token
   def setup_person
     invitation = Invitation.find_by(token: params[:token])
     if !invitation.nil?
@@ -50,16 +31,7 @@ class ApiController < ApplicationController
     end
   end
 
-  def join_room
-    invitation = Invitation.find_by(token: params[:token])
-    person = Person.find_by(email: invitation.email)
-    Membership.create!(
-        person: person,
-        room: invitation.room
-    )
-    invitation.destroy!
-  end
-
+  # emotes, rooms
   def metadata
     if Person.exists?(auth: request.headers['auth'])
       @rooms = Room.all
@@ -70,6 +42,7 @@ class ApiController < ApplicationController
     end
   end
 
+  # infractions, posts
   def get_posts
     person = Person.find_by(auth: request.headers['auth'])
     @room = Room.find(params[:room_id])
@@ -82,6 +55,18 @@ class ApiController < ApplicationController
     end
   end
 
+  # status only
+  def join_room
+    invitation = Invitation.find_by(token: params[:token])
+    person = Person.find_by(email: invitation.email)
+    Membership.create!(
+        person: person,
+        room: invitation.room
+    )
+    invitation.destroy!
+  end
+
+  # status only
   def post_post
     person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
@@ -94,6 +79,7 @@ class ApiController < ApplicationController
     end
   end
 
+  # status only
   def emote_on_post
     person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
@@ -108,6 +94,7 @@ class ApiController < ApplicationController
     end
   end
 
+  # status only
   def remove_emote_from_post
     person = Person.find_by(auth: request.headers['auth'])
     post = Post.find(params[:post_id])
@@ -117,6 +104,7 @@ class ApiController < ApplicationController
     event.destroy
   end
 
+  # status only
   def callout
     person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
@@ -131,6 +119,7 @@ class ApiController < ApplicationController
     end
   end
 
+  # status only
   def remove_callout
     person = Person.find_by(auth: request.headers['auth'])
     post = Post.find(params[:post_id])
@@ -140,6 +129,7 @@ class ApiController < ApplicationController
     event.destroy
   end
 
+  # status only
   def create_infraction
     person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
@@ -152,6 +142,7 @@ class ApiController < ApplicationController
     end
   end
 
+  # status only
   def rate_infraction
     person = Person.find_by(auth: request.headers['auth'])
     room = Room.find(params[:room_id])
