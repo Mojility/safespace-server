@@ -132,11 +132,23 @@ class ApiController < ApplicationController
   end
 
   def remove_callout
-    person = Person.find_by(auth: [params[:auth]])
+    person = Person.find_by(auth: params[:auth])
     post = Post.find(params[:post_id])
     infraction = Infraction.find(params[:infraction_id])
 
     event = InfractionEvent.find_by(person: person, post: post, infraction: infraction)
     event.destroy
+  end
+
+  def create_infraction
+    person = Person.find_by(auth: params[:auth])
+    room = Room.find(params[:room_id])
+
+    if Membership.exists?(person: person, room: room) && !Infraction.exists?(room: room, label: params[:label])
+      Infraction.create!(room: room, label: params[:label])
+    else
+      response.status = 401
+      render json: {}
+    end
   end
 end

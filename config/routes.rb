@@ -22,4 +22,5 @@ Rails.application.routes.draw do
   match 'room/:room_id/post/:post_id/infraction' => 'api#callout', via: [:post]
   match 'room/:room_id/post/:post_id/infraction/:infraction_id/:auth' => 'api#remove_callout', via: [:delete]
 
+  match 'room/:room_id/infraction' => 'api#create_infraction', via: [:post]
 end
