@@ -33,7 +33,7 @@ class ApiController < ApplicationController
       if person.nil?
         render json: {person_exists: false}
       else
-        render json: {person_exists: true}
+        render json: {person_exists: true, auth_token: person.auth}
       end
     end
 
@@ -42,8 +42,8 @@ class ApiController < ApplicationController
   def setup_person
     invitation = Invitation.find_by(token: params[:token])
     if !invitation.nil?
-      Person.create!(email: invitation.email, handle: params[:handle])
-      render json: {}
+      person = Person.create!(email: invitation.email, handle: params[:handle])
+      render json: {auth_token: person.auth}
     else
       response.status = 404
       render json: {}
