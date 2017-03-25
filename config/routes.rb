@@ -15,12 +15,12 @@ Rails.application.routes.draw do
   match 'auth/join' => 'api#join_room', via: [:post]
   match 'metadata' => 'api#metadata', via: [:post]
 
-  match 'room/:room_id/:auth' => 'api#get_posts', via: [:get]
+  match 'room/:room_id' => 'api#get_posts', via: [:get]
   match 'room/:room_id/post' => 'api#post_post', via: [:post]
   match 'room/:room_id/post/:post_id/emote' => 'api#emote_on_post', via: [:post]
-  match 'room/:room_id/post/:post_id/emote/:emote_id/:auth' => 'api#remove_emote_from_post', via: [:delete]
+  match 'room/:room_id/post/:post_id/emote/:emote_id' => 'api#remove_emote_from_post', via: [:delete]
   match 'room/:room_id/post/:post_id/infraction' => 'api#callout', via: [:post]
-  match 'room/:room_id/post/:post_id/infraction/:infraction_id/:auth' => 'api#remove_callout', via: [:delete]
+  match 'room/:room_id/post/:post_id/infraction/:infraction_id' => 'api#remove_callout', via: [:delete]
 
   match 'room/:room_id/infraction' => 'api#create_infraction', via: [:post]
   match 'room/:room_id/infraction/rate' => 'api#rate_infraction', via: [:post]
