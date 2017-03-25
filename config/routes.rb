@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   match 'posts/create' => 'application#create_post', via: [:post]
 
   match 'auth/validate' => 'application#validate_invitation', via: [:post]
+  match 'auth/setup' => 'application#setup_person', via: [:post]
 end

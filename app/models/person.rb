@@ -3,6 +3,8 @@ class Person < ApplicationRecord
   has_many :people
   has_many :rooms, through: :memberships
 
+  validates :email, uniqueness: true
+
   before_create :set_auth
 
   private

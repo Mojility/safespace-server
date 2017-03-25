@@ -9,6 +9,8 @@ AdminUser.delete_all
 Room.delete_all
 Membership.delete_all
 Person.delete_all
+Invitation.delete_all
+
 
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
 

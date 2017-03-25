@@ -49,4 +49,17 @@ class ApplicationController < ActionController::Base
 
   end
 
+  def setup_person
+    invitation = Invitation.find_by(token: params[:token])
+    if !invitation.nil?
+      person = Person.create!(email: invitation.email, handle: params[:handle])
+      Membership.create!(person: person, room: invitation.room)
+      invitation.destroy!
+      render json: {}
+    else
+      response.status = 404
+      render json: {}
+    end
+  end
+
 end
