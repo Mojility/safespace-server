@@ -9,4 +9,8 @@ json.posts @posts do |post|
     json.id infraction[:id]
     json.quantity infraction[:quantity]
   end
+
+  json.infractions @room.infractions do |infraction|
+    json.(infraction, :id, :label)
+  end
 end

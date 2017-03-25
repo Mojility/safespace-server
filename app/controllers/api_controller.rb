@@ -72,10 +72,10 @@ class ApiController < ApplicationController
 
   def get_posts
     person = Person.find_by(auth: URI.decode(params[:auth]))
-    room = Room.find(params[:room_id])
+    @room = Room.find(params[:room_id])
 
-    if Membership.exists?(person: person, room: room)
-      @posts = room.posts
+    if Membership.exists?(person: person, room: @room)
+      @posts = @room.posts
     else
       response.status = 401
       render json: {}
