@@ -151,4 +151,24 @@ class ApiController < ApplicationController
       render json: {}
     end
   end
+
+  def rate_infraction
+    person = Person.find_by(auth: params[:auth])
+    room = Room.find(params[:room_id])
+    infraction = Infraction.find(params[:infraction_id])
+
+    if Membership.exists?(person: person, room: room)
+      begin
+        rating = InfractionRating.find_by(person: person, infraction: infraction)
+        raise ActiveRecord::RecordNotFound if rating.nil?
+        rating.rating = params[:rating]
+        rating.save!
+      rescue ActiveRecord::RecordNotFound
+        InfractionRating.create!(infraction: infraction, rating: params[:rating], person: person)
+      end
+    else
+      response.status = 401
+      render json: {}
+    end
+  end
 end

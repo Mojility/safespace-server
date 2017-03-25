@@ -32,8 +32,8 @@ Emote.create!(label: 'emote2', code: 'Q')
 Emote.create!(label: 'emote3', code: 'W')
 e = Emote.create!(label: 'emote4', code: 'E')
 
-Infraction.create!(label: 'test infraction 2')
-i = Infraction.create!(label: 'test infraction label')
+Infraction.create!(label: 'test infraction 2', room: r)
+i = Infraction.create!(label: 'test infraction label', room: r)
 
 post = Post.create!(person: p, room: r, body: ' body stuff 1')
 post.infraction_events.create!(infraction: i, person: p)
