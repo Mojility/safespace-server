@@ -8,9 +8,12 @@ Rails.application.routes.draw do
   # match 'registry/subscribe' => 'application#join_room', via: [:post]
   # match 'posts/create' => 'application#create_post', via: [:post]
 
-  match 'registry/user' => 'application#rooms', via: [:get]
+  match 'registry/user' => 'api#rooms', via: [:get]
 
-  match 'auth/validate' => 'application#validate_invitation', via: [:post]
-  match 'auth/setup' => 'application#setup_person', via: [:post]
-  match 'auth/join' => 'application#join_room', via: [:post]
+  match 'auth/validate' => 'api#validate_invitation', via: [:post]
+  match 'auth/setup' => 'api#setup_person', via: [:post]
+  match 'auth/join' => 'api#join_room', via: [:post]
+  match 'metadata' => 'api#metadata', via: [:post]
+
+  match 'room/:room_id/:auth' => 'api#get_posts', via: [:get]
 end
