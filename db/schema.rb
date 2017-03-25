@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170325011814) do
+ActiveRecord::Schema.define(version: 20170325025008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,11 +46,41 @@ ActiveRecord::Schema.define(version: 20170325011814) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "emote_events", force: :cascade do |t|
+    t.integer  "person_id"
+    t.integer  "post_id"
+    t.integer  "emote_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["emote_id"], name: "index_emote_events_on_emote_id", using: :btree
+    t.index ["person_id"], name: "index_emote_events_on_person_id", using: :btree
+    t.index ["post_id"], name: "index_emote_events_on_post_id", using: :btree
+  end
+
   create_table "emotes", force: :cascade do |t|
     t.string   "label"
     t.string   "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "infraction_events", force: :cascade do |t|
+    t.integer  "post_id"
+    t.integer  "infraction_id"
+    t.integer  "person_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["infraction_id"], name: "index_infraction_events_on_infraction_id", using: :btree
+    t.index ["person_id"], name: "index_infraction_events_on_person_id", using: :btree
+    t.index ["post_id"], name: "index_infraction_events_on_post_id", using: :btree
+  end
+
+  create_table "infractions", force: :cascade do |t|
+    t.string   "label"
+    t.integer  "room_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["room_id"], name: "index_infractions_on_room_id", using: :btree
   end
 
   create_table "invitations", force: :cascade do |t|

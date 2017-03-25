@@ -11,6 +11,10 @@ Membership.delete_all
 Person.delete_all
 Invitation.delete_all
 Emote.delete_all
+Post.delete_all
+Infraction.delete_all
+InfractionEvent.delete_all
+EmoteEvent.delete_all
 
 
 AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
@@ -20,15 +24,29 @@ Room.create!(name: 'Gay Poz Guys')
 Room.create!(name: 'Well Ahead')
 r = Room.create!(name: 'The Pozzy')
 p = Person.create!(email: 'coolio@gmail.io', handle: 'Coolio')
-Membership.create!(person: p, room: Room.all.first)
-
-Post.create!(person: p, room: r, body: ' body stuff 1')
-Post.create!(person: p, room: r, body: ' body stuff 2')
-Post.create!(person: p, room: r, body: ' body stuff 3')
-Post.create!(person: p, room: r, body: ' body stuff 4')
-Post.create!(person: p, room: r, body: ' body stuff 5')
+p.update_attribute(:auth, 'test')
+Membership.create!(person: p, room: r)
 
 Emote.create!(label: 'emote1', code: 'R')
 Emote.create!(label: 'emote2', code: 'Q')
 Emote.create!(label: 'emote3', code: 'W')
-Emote.create!(label: 'emote4', code: 'E')
+e = Emote.create!(label: 'emote4', code: 'E')
+
+i = Infraction.create!(label: 'test infraction label')
+
+post = Post.create!(person: p, room: r, body: ' body stuff 1')
+post.infraction_events.create!(infraction: i, person: p)
+post.emote_events.create!(emote: e, person: p)
+post = Post.create!(person: p, room: r, body: ' body stuff 2')
+post.infraction_events.create!(infraction: i, person: p)
+post.emote_events.create!(emote: e, person: p)
+post = Post.create!(person: p, room: r, body: ' body stuff 3')
+post.infraction_events.create!(infraction: i, person: p)
+post.emote_events.create!(emote: e, person: p)
+post = Post.create!(person: p, room: r, body: ' body stuff 4')
+post.infraction_events.create!(infraction: i, person: p)
+post.emote_events.create!(emote: e, person: p)
+post = Post.create!(person: p, room: r, body: ' body stuff 5')
+post.infraction_events.create!(infraction: i, person: p)
+post.emote_events.create!(emote: e, person: p)
+
