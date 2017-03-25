@@ -93,4 +93,21 @@ class ApiController < ApplicationController
       render json: {}
     end
   end
+
+  def emote_on_post
+    person = Person.find_by(auth: [params[:auth]])
+    room = Room.find(params[:room_id])
+    post = Post.find(params[:post_id])
+    emote = Emote.find(params[:emote_id])
+
+    if Membership.exists?(person: person, room: room) && !EmoteEvent.exists?(person: person, post: post, emote: emote)
+      EmoteEvent.create!(person: person, post: post, emote: emote)
+    else
+      response.status = 400
+      render json: {}
+    end
+  end
 end
+
+# post 26
+# emote 21
