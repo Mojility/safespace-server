@@ -107,7 +107,13 @@ class ApiController < ApplicationController
       render json: {}
     end
   end
-end
 
-# post 26
-# emote 21
+  def remove_emote_from_post
+    person = Person.find_by(auth: [params[:auth]])
+    post = Post.find(params[:post_id])
+    emote = Emote.find(params[:emote_id])
+
+    event = EmoteEvent.find_by(person: person, post: post, emote: emote)
+    event.destroy
+  end
+end
