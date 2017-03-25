@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   match 'metadata' => 'api#metadata', via: [:post]
 
   match 'room/:room_id/:auth' => 'api#get_posts', via: [:get]
+  match 'room/:room_id/post' => 'api#post_post', via: [:post]
 end

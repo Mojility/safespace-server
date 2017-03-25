@@ -80,6 +80,17 @@ class ApiController < ApplicationController
       response.status = 401
       render json: {}
     end
+  end
 
+  def post_post
+    person = Person.find_by(auth: [params[:auth]])
+    room = Room.find(params[:room_id])
+
+    if Membership.exists?(person: person, room: room)
+      Post.create!(room: room, person: person, body: params[:body])
+    else
+      response.status == 401
+      render json: {}
+    end
   end
 end
